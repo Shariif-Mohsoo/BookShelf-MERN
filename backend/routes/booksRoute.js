@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const { title, author, publishYear } = req.body;
+    // console.log(title, author, publishYear);
     if (!title || !author || !publishYear) {
       return res.status(400).send({
         message: "Send all required fields: title, author, publishYear",
@@ -61,7 +62,7 @@ router.put("/:id", async (req, res) => {
         message: "Send all required fields:title,author,publishYear",
       });
     }
-    const { id } = req.body;
+    const { id } = req.params;
     const result = await Book.findByIdAndUpdate(id, req.body);
     if (!result) return res.status(404).json({ message: "Book Not Found" });
     return res.status(200).send({ message: "Book Update Successfully" });
@@ -74,7 +75,7 @@ router.put("/:id", async (req, res) => {
 // Route for deleting the book
 router.delete("/:id", async (req, res) => {
   try {
-    const { id } = request.params;
+    const { id } = req.params;
     const result = await Book.findByIdAndDelete(id);
     if (!result) return res.status(404).json({ message: "Book not found" });
     return res.status(200).send({ message: "Book Deleted Successfully" });
